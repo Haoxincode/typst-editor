@@ -10,8 +10,9 @@ export class TypstCompilerService {
   private serverUrl: string
   private isServerReady = false
 
-  constructor(serverUrl = 'http://localhost:3004') {
-    this.serverUrl = serverUrl
+  constructor(serverUrl?: string) {
+    // 在 Vercel 部署环境中使用相对路径，本地开发使用 localhost
+    this.serverUrl = serverUrl || (typeof window !== 'undefined' && window.location.origin) || 'http://localhost:3004'
   }
 
   async initialize(): Promise<void> {

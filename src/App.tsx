@@ -16,7 +16,7 @@ function App() {
         await loadTemplates()
         
         // 创建默认文档
-        const defaultDoc = createDocument('新建文档')
+        createDocument('新建文档')
         
         // 设置默认内容
         const defaultContent = `= 欢迎使用 Lychee Typst 编辑器

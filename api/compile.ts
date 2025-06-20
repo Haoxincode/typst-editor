@@ -13,7 +13,11 @@ async function initializeCompiler() {
   
   try {
     typstCompiler = NodeCompiler.create({
-      fontArgs: []
+      fontArgs: [
+        '--font-path', '/usr/share/fonts/',
+        '--font-path', '/System/Library/Fonts/',
+        '--font-path', '/usr/local/share/fonts/',
+      ]
     })
     
     // 测试编译器
@@ -69,11 +73,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     
     if (format === 'pdf') {
       // 返回PDF二进制数据
-      res.setHeader('Content-Type', 'application/pdf')
+      res.setHeader('Content-Type', 'application/pdf; charset=utf-8')
       res.setHeader('Content-Disposition', 'inline; filename="document.pdf"')
       res.send(Buffer.from(result))
     } else {
-      // 返回SVG文本
+      // 返回SVG文本，确保正确的编码
+      res.setHeader('Content-Type', 'application/json; charset=utf-8')
       res.status(200).json({
         success: true,
         result: result,

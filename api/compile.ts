@@ -14,14 +14,14 @@ async function initializeCompiler() {
   try {
     typstCompiler = NodeCompiler.create({
       fontArgs: [
-        '--font-path', '/usr/share/fonts/',
-        '--font-path', '/System/Library/Fonts/',
-        '--font-path', '/usr/local/share/fonts/',
+        { fontPaths: ['/usr/share/fonts/'] },
+        { fontPaths: ['/System/Library/Fonts/'] },
+        { fontPaths: ['/usr/local/share/fonts/'] },
       ]
     })
     
     // 测试编译器
-    const testResult = await typstCompiler.svg({ 
+    await typstCompiler.svg({ 
       mainFileContent: '= 测试中文\n\n这是一个测试文档。' 
     })
     

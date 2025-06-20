@@ -1,9 +1,28 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import { NodeCompiler } from '@myriaddreamin/typst-ts-node-compiler'
+import { readFileSync } from 'fs'
+import { join } from 'path'
 
 // 全局编译器实例
 let typstCompiler: any = null
 let isInitialized = false
+
+// 加载内置中文字体
+function loadChineseFonts(): Buffer[] {
+  const fonts: Buffer[] = []
+  
+  try {
+    // 尝试加载思源黑体
+    const fontPath = require.resolve('source-han-sans/Regular.otf')
+    const fontBuffer = readFileSync(fontPath)
+    fonts.push(fontBuffer)
+    console.log('Loaded Source Han Sans font')
+  } catch (error) {
+    console.warn('Could not load Source Han Sans font:', error)
+  }
+  
+  return fonts
+}
 
 // 初始化编译器
 async function initializeCompiler() {
@@ -12,12 +31,25 @@ async function initializeCompiler() {
   console.log('Initializing Node.js Typst compiler...')
   
   try {
+    // 加载中文字体
+    const chineseFonts = loadChineseFonts()
+    
+    const fontArgs: any[] = []
+    
+    // 如果成功加载了中文字体，使用字体blob
+    if (chineseFonts.length > 0) {
+      fontArgs.push({ fontBlobs: chineseFonts })
+    }
+    
+    // 添加系统字体路径作为备选
+    fontArgs.push(
+      { fontPaths: ['/usr/share/fonts/'] },
+      { fontPaths: ['/System/Library/Fonts/'] },
+      { fontPaths: ['/usr/local/share/fonts/'] }
+    )
+    
     typstCompiler = NodeCompiler.create({
-      fontArgs: [
-        { fontPaths: ['/usr/share/fonts/'] },
-        { fontPaths: ['/System/Library/Fonts/'] },
-        { fontPaths: ['/usr/local/share/fonts/'] },
-      ]
+      fontArgs: fontArgs
     })
     
     // 测试编译器
@@ -52,7 +84,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     
     console.log(`Compiling to ${format}:`, content.substring(0, 100) + '...')
     
-    let result
+    let result: any
     const compileOptions = {
       mainFileContent: content,
       ...(Object.keys(inputs).length > 0 && { inputs })

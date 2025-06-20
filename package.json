@@ -27,6 +27,7 @@
     "codemirror": "^6.0.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "source-han-sans": "^2.004",
     "zustand": "^4.5.2"
   },
   "devDependencies": {

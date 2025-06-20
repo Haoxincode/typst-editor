@@ -21,7 +21,6 @@ export const MainLayout: React.FC = () => {
     setIsDraggingChat(true)
     const startX = e.clientX
     const startWidth = chatPanelWidth
-    const layoutRect = layoutRef.current.getBoundingClientRect()
 
     const handleMouseMove = (moveEvent: MouseEvent) => {
       const deltaX = moveEvent.clientX - startX
@@ -45,7 +44,6 @@ export const MainLayout: React.FC = () => {
     setIsDraggingPreview(true)
     const startX = e.clientX
     const startWidth = previewPanelWidth
-    const layoutRect = layoutRef.current.getBoundingClientRect()
 
     const handleMouseMove = (moveEvent: MouseEvent) => {
       const deltaX = startX - moveEvent.clientX

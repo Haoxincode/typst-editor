@@ -12,12 +12,8 @@
 }
 
 .chat-panel-container {
-  width: 320px;
-  min-width: 280px;
-  max-width: 400px;
   border-right: 1px solid var(--border-color);
   background: var(--bg-secondary);
-  resize: horizontal;
   overflow: hidden;
 }
 
@@ -30,13 +26,57 @@
 }
 
 .preview-panel-container {
-  width: 400px;
-  min-width: 300px;
-  max-width: 600px;
   border-left: 1px solid var(--border-color);
   background: var(--bg-secondary);
-  resize: horizontal;
   overflow: hidden;
+}
+
+/* 拖拽手柄样式 */
+.resize-handle {
+  position: relative;
+  background: transparent;
+  cursor: col-resize;
+  z-index: 10;
+  transition: background-color 0.2s ease;
+}
+
+.resize-handle:hover {
+  background: var(--border-color);
+}
+
+.resize-handle-chat {
+  width: 4px;
+  border-right: 1px solid transparent;
+}
+
+.resize-handle-preview {
+  width: 4px;
+  border-left: 1px solid transparent;
+}
+
+.resize-handle:hover::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2px;
+  height: 20px;
+  background: var(--text-secondary);
+  border-radius: 1px;
+}
+
+/* 拖拽状态样式 */
+.layout-container.dragging {
+  user-select: none;
+}
+
+.layout-container.dragging * {
+  pointer-events: none;
+}
+
+.layout-container.dragging .resize-handle {
+  pointer-events: auto;
 }
 
 /* 响应式设计 */
@@ -47,11 +87,8 @@
   
   .chat-panel-container,
   .preview-panel-container {
-    width: 100%;
+    width: 100% !important;
     height: 200px;
-    min-height: 150px;
-    max-height: 300px;
-    resize: vertical;
   }
   
   .chat-panel-container {
@@ -67,5 +104,9 @@
   .editor-container {
     min-width: unset;
     flex: 1;
+  }
+  
+  .resize-handle {
+    display: none;
   }
 }

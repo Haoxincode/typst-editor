@@ -1,44 +1,10 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import { NodeCompiler } from '@myriaddreamin/typst-ts-node-compiler'
-import { readFileSync } from 'fs'
-import { join } from 'path'
 
 // 全局编译器实例
 let typstCompiler: any = null
 let isInitialized = false
 
-// 加载内置中文字体
-function loadChineseFonts(): Buffer[] {
-  const fonts: Buffer[] = []
-  const fontsDir = join(process.cwd(), 'assets', 'fonts', 'zh')
-  
-  try {
-    // 检查字体目录是否存在
-    const fs = require('fs')
-    if (fs.existsSync(fontsDir)) {
-      const fontFiles = fs.readdirSync(fontsDir).filter((file: string) => 
-        file.endsWith('.ttf') || file.endsWith('.otf') || file.endsWith('.woff2')
-      )
-      
-      for (const fontFile of fontFiles) {
-        try {
-          const fontPath = join(fontsDir, fontFile)
-          const fontBuffer = readFileSync(fontPath)
-          fonts.push(fontBuffer)
-          console.log(`Loaded Chinese font: ${fontFile}`)
-        } catch (error) {
-          console.warn(`Failed to load font ${fontFile}:`, error)
-        }
-      }
-    } else {
-      console.warn('Chinese fonts directory not found:', fontsDir)
-    }
-  } catch (error) {
-    console.warn('Error loading Chinese fonts:', error)
-  }
-  
-  return fonts
-}
 
 // 初始化编译器
 async function initializeCompiler() {
@@ -47,25 +13,16 @@ async function initializeCompiler() {
   console.log('Initializing Node.js Typst compiler...')
   
   try {
-    // 加载中文字体
-    const chineseFonts = loadChineseFonts()
-    
-    const fontArgs: any[] = []
-    
-    // 如果成功加载了中文字体，使用字体blob
-    if (chineseFonts.length > 0) {
-      fontArgs.push({ fontBlobs: chineseFonts })
-    }
-    
-    // 添加系统字体路径作为备选
-    fontArgs.push(
-      { fontPaths: ['/usr/share/fonts/'] },
-      { fontPaths: ['/System/Library/Fonts/'] },
-      { fontPaths: ['/usr/local/share/fonts/'] }
-    )
-    
     typstCompiler = NodeCompiler.create({
-      fontArgs: fontArgs
+      fontArgs: [
+        // 优先使用我们上传的中文字体
+        { fontPaths: ['assets/fonts/zh'] },
+        // 其他字体目录作为备选
+        { fontPaths: ['assets/fonts'] },
+        { fontPaths: ['/usr/share/fonts/'] },
+        { fontPaths: ['/System/Library/Fonts/'] },
+        { fontPaths: ['/usr/local/share/fonts/'] }
+      ]
     })
     
     // 测试编译器

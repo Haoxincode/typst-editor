@@ -10,15 +10,31 @@ let isInitialized = false
 // 加载内置中文字体
 function loadChineseFonts(): Buffer[] {
   const fonts: Buffer[] = []
+  const fontsDir = join(process.cwd(), 'assets', 'fonts', 'zh')
   
   try {
-    // 尝试加载思源黑体
-    const fontPath = require.resolve('source-han-sans/Regular.otf')
-    const fontBuffer = readFileSync(fontPath)
-    fonts.push(fontBuffer)
-    console.log('Loaded Source Han Sans font')
+    // 检查字体目录是否存在
+    const fs = require('fs')
+    if (fs.existsSync(fontsDir)) {
+      const fontFiles = fs.readdirSync(fontsDir).filter((file: string) => 
+        file.endsWith('.ttf') || file.endsWith('.otf') || file.endsWith('.woff2')
+      )
+      
+      for (const fontFile of fontFiles) {
+        try {
+          const fontPath = join(fontsDir, fontFile)
+          const fontBuffer = readFileSync(fontPath)
+          fonts.push(fontBuffer)
+          console.log(`Loaded Chinese font: ${fontFile}`)
+        } catch (error) {
+          console.warn(`Failed to load font ${fontFile}:`, error)
+        }
+      }
+    } else {
+      console.warn('Chinese fonts directory not found:', fontsDir)
+    }
   } catch (error) {
-    console.warn('Could not load Source Han Sans font:', error)
+    console.warn('Error loading Chinese fonts:', error)
   }
   
   return fonts

@@ -1,0 +1,212 @@
+/* CSS 变量定义 */
+:root {
+  /* 颜色主题 */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-hover: #e9ecef;
+  --bg-disabled: #6c757d;
+  
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --text-disabled: #adb5bd;
+  
+  --border-color: #dee2e6;
+  --accent-color: #0d6efd;
+  --accent-color-hover: #0b5ed7;
+  
+  /* 状态颜色 */
+  --success-color: #198754;
+  --success-color-hover: #157347;
+  --error-color: #dc3545;
+  --warning-color: #fd7e14;
+  
+  /* 聊天消息 */
+  --bg-user-message: #e3f2fd;
+  --border-user-message: #bbdefb;
+  --bg-assistant-message: #f3e5f5;
+  --border-assistant-message: #e1bee7;
+  
+  /* 代码块 */
+  --bg-code: #f8f9fa;
+  --bg-code-header: #e9ecef;
+  --border-code: #dee2e6;
+  --text-code: #495057;
+  
+  /* 代码语法高亮 */
+  --code-keyword: #d73a49;
+  --code-string: #032f62;
+  --code-comment: #6a737d;
+  --code-number: #005cc5;
+  --code-function: #6f42c1;
+  
+  /* 选择和光标 */
+  --selection-bg: rgba(13, 110, 253, 0.2);
+  --cursor-color: #0d6efd;
+  
+  /* 搜索高亮 */
+  --search-match-bg: #fff3cd;
+  --search-match-border: #ffeaa7;
+  --search-match-selected-bg: #ffc107;
+  
+  /* 错误状态 */
+  --bg-error: #f8d7da;
+  --border-error: #f5c6cb;
+  
+  /* 滚动条 */
+  --scrollbar-thumb: #ced4da;
+  --scrollbar-thumb-hover: #adb5bd;
+}
+
+/* 深色主题 */
+[data-theme="dark"] {
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --bg-hover: #404040;
+  --bg-disabled: #666666;
+  
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --text-disabled: #666666;
+  
+  --border-color: #404040;
+  --accent-color: #4dabf7;
+  --accent-color-hover: #339af0;
+  
+  --success-color: #51cf66;
+  --success-color-hover: #40c057;
+  --error-color: #ff6b6b;
+  --warning-color: #ffd43b;
+  
+  --bg-user-message: #1e3a8a;
+  --border-user-message: #3b82f6;
+  --bg-assistant-message: #581c87;
+  --border-assistant-message: #a855f7;
+  
+  --bg-code: #2d2d2d;
+  --bg-code-header: #404040;
+  --border-code: #555555;
+  --text-code: #ffffff;
+  
+  --code-keyword: #ff79c6;
+  --code-string: #f1fa8c;
+  --code-comment: #6272a4;
+  --code-number: #bd93f9;
+  --code-function: #50fa7b;
+  
+  --selection-bg: rgba(77, 171, 247, 0.3);
+  --cursor-color: #4dabf7;
+  
+  --search-match-bg: #ffd43b;
+  --search-match-border: #fab005;
+  --search-match-selected-bg: #ffd43b;
+  
+  --bg-error: #2d1b1f;
+  --border-error: #ff6b6b;
+  
+  --scrollbar-thumb: #555555;
+  --scrollbar-thumb-hover: #666666;
+}
+
+/* 全局样式重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Noto Sans SC', 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', 
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+#root {
+  height: 100%;
+}
+
+/* 应用容器 */
+.app {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* 通用样式 */
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input, textarea {
+  font-family: inherit;
+}
+
+/* 滚动条全局样式 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* 选择文本样式 */
+::selection {
+  background: var(--selection-bg);
+}
+
+::-moz-selection {
+  background: var(--selection-bg);
+}
+
+/* 焦点样式 */
+:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+/* 无障碍支持 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 打印样式 */
+@media print {
+  .app {
+    height: auto;
+  }
+  
+  .chat-panel-container,
+  .preview-panel-container {
+    display: none;
+  }
+  
+  .editor-container {
+    width: 100%;
+  }
+}

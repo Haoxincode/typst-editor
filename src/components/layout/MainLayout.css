@@ -1,0 +1,71 @@
+.main-layout {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+.layout-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.chat-panel-container {
+  width: 320px;
+  min-width: 280px;
+  max-width: 400px;
+  border-right: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  resize: horizontal;
+  overflow: hidden;
+}
+
+.editor-container {
+  flex: 1;
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.preview-panel-container {
+  width: 400px;
+  min-width: 300px;
+  max-width: 600px;
+  border-left: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  resize: horizontal;
+  overflow: hidden;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+  .layout-container {
+    flex-direction: column;
+  }
+  
+  .chat-panel-container,
+  .preview-panel-container {
+    width: 100%;
+    height: 200px;
+    min-height: 150px;
+    max-height: 300px;
+    resize: vertical;
+  }
+  
+  .chat-panel-container {
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  .preview-panel-container {
+    border-left: none;
+    border-top: 1px solid var(--border-color);
+  }
+  
+  .editor-container {
+    min-width: unset;
+    flex: 1;
+  }
+}

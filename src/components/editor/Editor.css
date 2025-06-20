@@ -1,0 +1,62 @@
+.editor-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--bg-primary);
+}
+
+.editor-content {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.codemirror-container {
+  height: 100%;
+  width: 100%;
+}
+
+/* CodeMirror 样式定制 */
+.cm-editor {
+  border: none;
+  outline: none;
+}
+
+.cm-focused {
+  outline: none;
+}
+
+.cm-line {
+  padding-left: 16px;
+}
+
+.cm-gutter {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border-right: 1px solid var(--border-color);
+}
+
+.cm-lineNumbers .cm-gutterElement {
+  min-width: 3ch;
+  text-align: right;
+  padding-right: 8px;
+}
+
+/* 选择和光标样式 */
+.cm-selectionBackground {
+  background: var(--selection-bg) !important;
+}
+
+.cm-cursor {
+  border-color: var(--cursor-color);
+}
+
+/* 搜索高亮 */
+.cm-searchMatch {
+  background: var(--search-match-bg);
+  border: 1px solid var(--search-match-border);
+}
+
+.cm-searchMatch.cm-searchMatch-selected {
+  background: var(--search-match-selected-bg);
+}

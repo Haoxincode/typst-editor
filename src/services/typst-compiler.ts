@@ -5,6 +5,8 @@ declare global {
       svg: (options: { mainContent: string; inputs?: Record<string, any> }) => Promise<string>
       pdf: (options: { mainContent: string; inputs?: Record<string, any> }) => Promise<Uint8Array>
       setCompilerInitOptions?: (options: any) => void
+      preloadFontFromUrl?: (url: string) => Promise<void>
+      preloadFontData?: (data: ArrayBuffer, name?: string) => Promise<void>
     }
   }
 }
@@ -57,10 +59,23 @@ export class TypstCompilerService {
         throw new Error('Typst all-in-one bundle failed to load after 10 seconds')
       }
       
-      console.log('$typst object found, testing compilation...')
+      console.log('$typst object found, preloading fonts and testing compilation...')
 
-      // 测试编译器
-      await window.$typst.svg({ mainContent: '= 测试\n\n浏览器端 Typst 编译器已就绪。' })
+      // 预加载中文字体
+      try {
+        console.log('Preloading Chinese font...')
+        if (window.$typst.preloadFontFromUrl) {
+          await window.$typst.preloadFontFromUrl('/assets/fonts/zh/NotoSansSC-Light.ttf')
+          console.log('Chinese font preloaded successfully')
+        } else {
+          console.warn('Font preloading not supported')
+        }
+      } catch (error) {
+        console.warn('Failed to preload Chinese font:', error)
+      }
+
+      // 测试编译器 - 包含中文内容
+      await window.$typst.svg({ mainContent: '= 中文测试\n\n浏览器端 Typst 编译器已就绪。\n\n中文字体显示测试：你好世界！' })
       
       this._isReady = true
       console.log('Browser-based Typst compiler initialized successfully')

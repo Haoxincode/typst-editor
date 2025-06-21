@@ -43,16 +43,21 @@ export class TypstCompilerService {
       
       // 等待全局 $typst 对象可用
       let attempts = 0
-      const maxAttempts = 50
+      const maxAttempts = 100 // 增加到10秒等待时间
       
       while (!window.$typst && attempts < maxAttempts) {
         await new Promise(resolve => setTimeout(resolve, 100))
         attempts++
+        if (attempts % 20 === 0) {
+          console.log(`Waiting for Typst compiler... (${attempts}/100)`)
+        }
       }
       
       if (!window.$typst) {
-        throw new Error('Typst all-in-one bundle not loaded')
+        throw new Error('Typst all-in-one bundle failed to load after 10 seconds')
       }
+      
+      console.log('$typst object found, testing compilation...')
 
       // 测试编译器
       await window.$typst.svg({ mainContent: '= 测试\n\n浏览器端 Typst 编译器已就绪。' })

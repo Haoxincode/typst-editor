@@ -12,11 +12,11 @@
   </head>
   <body>
     <div id="root"></div>
-    <script 
-      type="module"
-      src="https://cdn.jsdelivr.net/npm/@myriaddreamin/typst-all-in-one.ts@0.6.1-rc1/dist/esm/index.js"
-      id="typst"
-    ></script>
+    <script type="module">
+      import { $typst } from 'https://cdn.jsdelivr.net/npm/@myriaddreamin/typst-all-in-one.ts@0.6.1-rc1/dist/esm/index.js';
+      window.$typst = $typst;
+      console.log('Typst all-in-one loaded and attached to window');
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

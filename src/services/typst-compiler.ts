@@ -63,10 +63,18 @@ export class TypstCompilerService {
 
       // 预加载中文字体
       try {
-        console.log('Preloading Chinese font...')
+        console.log('Preloading Chinese fonts...')
         if (window.$typst.preloadFontFromUrl) {
-          await window.$typst.preloadFontFromUrl('/assets/fonts/zh/NotoSansSC-Light.ttf')
-          console.log('Chinese font preloaded successfully')
+          // 尝试加载本地字体文件
+          try {
+            await window.$typst.preloadFontFromUrl('/assets/fonts/zh/NotoSansSC-Light.ttf')
+            console.log('Local Chinese font preloaded successfully')
+          } catch (localError) {
+            console.warn('Local font failed, trying CDN font:', localError)
+            // 备用方案：使用 Google Fonts CDN 的字体
+            await window.$typst.preloadFontFromUrl('https://fonts.gstatic.com/s/notosanssc/v36/k3kCo84MPvpLmixcA63oeAL7Iqp5IZJF9bmaG9_FnYxNbPzS5HE.woff2')
+            console.log('CDN Chinese font preloaded successfully')
+          }
         } else {
           console.warn('Font preloading not supported')
         }

@@ -82,8 +82,17 @@ export class TypstCompilerService {
         console.warn('Failed to preload Chinese font:', error)
       }
 
-      // 测试编译器 - 包含中文内容
-      await window.$typst.svg({ mainContent: '= 中文测试\n\n浏览器端 Typst 编译器已就绪。\n\n中文字体显示测试：你好世界！' })
+      // 测试编译器 - 使用 zh-kit 包
+      const testContent = `#import "@preview/zh-kit:0.1.0": *
+#show: doc => setup-base-fonts(doc)
+
+= 中文测试
+
+浏览器端 Typst 编译器已就绪。
+
+中文字体显示测试：你好世界！#zh-num(2024)`
+
+      await window.$typst.svg({ mainContent: testContent })
       
       this._isReady = true
       console.log('Browser-based Typst compiler initialized successfully')

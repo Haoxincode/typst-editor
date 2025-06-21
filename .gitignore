@@ -9,7 +9,6 @@ server/node_modules/
 # Build outputs
 dist/
 build/
-public/
 
 # Environment variables
 .env
@@ -73,7 +72,6 @@ jspm_packages/
 
 # Gatsby files
 .cache/
-public
 
 # Storybook build outputs
 .out
